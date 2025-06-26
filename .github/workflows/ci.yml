@@ -1,0 +1,56 @@
+name: Pipeline CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  frontend-ci:
+    name: Pipeline Integração Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./marmitify-frontend
+      
+    steps:
+      - name:  Checkout código
+        uses: actions/checkout@v2
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Instalação de dependências
+        run: npm ci
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Build do Frontend
+        run: npm run build
+  backend-ci:
+    name: Pipeline Integração Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./marmitify-backend
+
+    steps:
+      - name:  Checkout código
+        uses: actions/checkout@v2
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Instalação de dependências
+        run: npm ci
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Build do Backend
+        run: npm run build
