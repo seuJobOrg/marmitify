@@ -6,7 +6,7 @@ import { UserController } from './user.controller';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User]), // Assuming UserService is an entity, otherwise replace with the correct entity
+        TypeOrmModule.forFeature([User]), 
     ],
     controllers: [
         UserController
@@ -15,7 +15,7 @@ import { UserController } from './user.controller';
         UserService
     ],
     exports: [
-        TypeOrmModule, // Exporting TypeOrmModule to make it available in other modules
+        TypeOrmModule,
     ]
 })
 export class UserModule {}
