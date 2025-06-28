@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { ChefModule } from './modules/chef/chef.module';
 
 @Module({
   imports: [
@@ -20,11 +21,13 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true, // Automatically load entities
     }),
     UserModule,
+    ChefModule,
   ],
   controllers: [AppController],
   providers: [AppService],
   exports: [
-    UserModule, // Exporting UserModule to make it available in other modules
+    UserModule,
+    ChefModule
   ],
 })
 export class AppModule {}
