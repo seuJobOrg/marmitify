@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ChefModule } from './modules/chef/chef.module';
 import { ClientModule } from './modules/client/client.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ClientModule } from './modules/client/client.module';
     UserModule,
     ChefModule,
     ClientModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
