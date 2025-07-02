@@ -1,8 +1,8 @@
 import Image from "next/image"
-import { LoginForm } from "@/components/auth/login-form"
+import { RegisterForm } from "@/components/auth/register-form"
 import { Header } from "@/components/layout/header"
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="flex min-h-screen">
       {/* Lado esquerdo: imagem + gradiente */}
@@ -31,7 +31,7 @@ export default function LoginPage() {
 
         {/* Formulário */}
         <main className="flex-grow flex items-start justify-center">
-          <LoginForm />
+          <RegisterForm />
         </main>
       </div>
     </div>

@@ -1,13 +1,16 @@
+import type React from "react"
 import Image from "next/image"
-import { LoginForm } from "@/components/auth/login-form"
-import { Header } from "@/components/layout/header"
+import { Header } from "./header"
 
-export default function LoginPage() {
+interface AuthLayoutProps {
+  children: React.ReactNode
+}
+
+export function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="flex min-h-screen">
       {/* Lado esquerdo: imagem + gradiente */}
       <div className="w-1/2 bg-gradient-to-br from-orange-50 to-pink-50 flex flex-col">
-        {/* Header lado esquerdo - logo */}
         <Header variant="split-left" />
 
         {/* Imagem principal */}
@@ -26,13 +29,9 @@ export default function LoginPage() {
 
       {/* Lado direito: formulário + fundo branco */}
       <div className="w-1/2 bg-white flex flex-col">
-        {/* Header lado direito - botões */}
-        <Header variant="split-right" />
+        <Header variant="split-right" className="bg-white" />
 
-        {/* Formulário */}
-        <main className="flex-grow flex items-start justify-center">
-          <LoginForm />
-        </main>
+        <main className="flex-grow flex items-start justify-center">{children}</main>
       </div>
     </div>
   )
