@@ -10,7 +10,7 @@ export function LoginForm() {
   return (
     <div className="w-full max-w-[400px] mt-[100px] space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Sign in</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">Logue-se</h1>
         <p className="text-gray-600 text-sm">
           If you don't have an account register <br />
           You can{" "}
