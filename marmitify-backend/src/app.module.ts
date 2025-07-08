@@ -7,10 +7,13 @@ import { ConfigModule } from '@nestjs/config';
 import { ChefModule } from './modules/chef/chef.module';
 import { ClientModule } from './modules/client/client.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST || 'localhost',
@@ -26,6 +29,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     ChefModule,
     ClientModule,
     AppointmentModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -33,6 +37,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     UserModule,
     ChefModule,
     ClientModule,
+    AuthModule
   ],
 })
 export class AppModule {}
