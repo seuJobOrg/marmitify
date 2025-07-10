@@ -31,11 +31,6 @@ export default function Page() {
                 Sou chef
               </button>
             </Link>
-            <button 
-              onClick={() => console.log(session)}
-            className="text-orange-500 cursor-pointer hover:bg-orange-100 px-8 py-3 rounded-full text-lg font-semibold border border-orange-500 bg-transparent w-full">
-                Sou chef
-              </button>
           </div>
         </div>
 
