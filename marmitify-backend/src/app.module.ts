@@ -15,6 +15,7 @@ import { AuthModule } from './modules/auth/auth.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
+      url: process.env.POSTGRES_URL || 'postgres://postgres:1234@localhost:5432/marmitify',
       type: 'postgres',
       host: process.env.POSTGRES_HOST || 'localhost',
       port: Number(process.env.POSTGRES_PORT) || 5432,
@@ -24,6 +25,7 @@ import { AuthModule } from './modules/auth/auth.module';
       entities: [__dirname + '/modules/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
       autoLoadEntities: true, // Automatically load entities
+      ssl: true
     }),
     UserModule,
     ChefModule,
