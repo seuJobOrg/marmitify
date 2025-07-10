@@ -4,6 +4,7 @@ import { useState } from "react"
 import { signIn, useSession } from "next-auth/react"
 import { Eye, EyeOff, Mail, Lock, Loader2Icon } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 export function LoginForm() {
   const { data: session } = useSession();
@@ -23,8 +24,14 @@ export function LoginForm() {
         password: form.password,
         redirect: false
       });
+      if (session) {
+        // Redirect to dashboard or home page after successful login
+        window.location.href = "/dashboard";
+      }
     } catch (error) {
-      console.error("Login failed:", error);
+      toast.error("Erro ao logar", {
+        description: "Tente novamente mais tarde.",
+      })
     } finally {
       setLoading(false);
     }
