@@ -1,10 +1,12 @@
 import Image from "next/image"
 import { RegisterForm } from "@/components/auth/register-form"
 import { Header } from "@/components/layout/header"
+import { Toaster } from "@/components/ui/sonner"
 
 export default function RegisterPage() {
   return (
     <div className="flex min-h-screen">
+      <Toaster richColors />
       {/* Lado esquerdo: imagem + gradiente */}
       <div className="w-1/2 bg-gradient-to-br from-orange-50 to-pink-50 flex flex-col">
         {/* Header lado esquerdo - logo */}

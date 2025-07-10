@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
-import { Controller } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UserController {
@@ -16,12 +17,14 @@ export class UserController {
         }
     }
 
+    @Get('/')
+    @UseGuards(AuthGuard('jwt'))
     async getUsers(req: Request, res: Response) {
         try {
             const users = await this.userService.findAll();
-            return res.status(200).json(users);
+            return users;
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return error.message;
         }
     }
 

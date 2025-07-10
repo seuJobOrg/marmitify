@@ -1,21 +1,44 @@
 "use client"
 
 import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock } from "lucide-react"
+import { signIn, useSession } from "next-auth/react"
+import { Eye, EyeOff, Mail, Lock, Loader2Icon } from "lucide-react"
 import Link from "next/link"
 
 export function LoginForm() {
+  const { data: session } = useSession();
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false
+      });
+    } catch (error) {
+      console.error("Login failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="w-full max-w-[400px] mt-[100px] space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 mb-3">Logue-se</h1>
         <p className="text-gray-600 text-sm">
-          If you don't have an account register <br />
-          You can{" "}
+          Se você ainda não possui uma conta <br />
+          Pode se {" "}
           <Link href="/register" className="text-red-500 font-medium cursor-pointer hover:underline">
-            Register here !
+            registrar aqui!
           </Link>
         </p>
       </div>
@@ -31,7 +54,8 @@ export function LoginForm() {
             <input
               id="email"
               type="email"
-              placeholder="Enter your email address"
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              placeholder="Digite seu endereço de e-mail"
               className="w-full pl-8 pr-4 py-3 border-0 border-b border-gray-300 rounded-none bg-transparent focus:border-red-500 focus:ring-0 placeholder:text-gray-400 outline-none text-sm"
             />
           </div>
@@ -40,14 +64,15 @@ export function LoginForm() {
         {/* Password Field */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-3">
-            Password
+            Senha
           </label>
           <div className="relative">
             <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Enter your Password"
+              placeholder="Digite sua senha"
               className="w-full pl-8 pr-12 py-3 border-0 border-b border-gray-300 rounded-none bg-transparent focus:border-red-500 focus:ring-0 placeholder:text-gray-400 outline-none text-sm"
             />
             <button
@@ -69,20 +94,29 @@ export function LoginForm() {
               className="w-4 h-4 rounded border-gray-300 text-red-500 focus:ring-red-500"
             />
             <label htmlFor="remember" className="text-sm text-gray-600">
-              Remember me
+              Lembre de mim
             </label>
           </div>
           <Link href="/forgot-password" className="text-sm text-gray-600 hover:text-red-500">
-            Forgot Password ?
+            Esqueceu sua senha?
           </Link>
         </div>
 
         {/* Login Button */}
         <button
+          onClick={handleLogin}
           type="submit"
           className="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white py-4 rounded-full text-lg font-medium transition-all duration-200 mt-8 cursor-pointer"
         >
-          Login
+          {
+            loading ? 
+            <span>
+              Carregando...
+              <Loader2Icon className="animate-spin" /> 
+            </span>
+            : 
+            "Login"
+          }
         </button>
 
         {/* Social Login */}

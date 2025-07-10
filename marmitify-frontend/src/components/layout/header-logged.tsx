@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { User } from "lucide-react"
+import { signOut } from "next-auth/react"
 
 export function Header() {
    const [open, setOpen] = useState(false)
@@ -42,9 +43,9 @@ export function Header() {
               Meu Perfil
             </Link>
             <Link
-              href="/logout"
+              href=""
               className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100"
-              onClick={() => setOpen(false)}
+              onClick={() => signOut()}
             >
               Sair
             </Link>
