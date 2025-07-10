@@ -20,7 +20,7 @@ import { AuthModule } from './modules/auth/auth.module';
       port: Number(process.env.POSTGRES_PORT) || 5432,
       username: process.env.POSTGRES_USER || 'postgres',
       password: process.env.POSTGRES_PASSWORD || '1234',
-      database: process.env.POSTGRES_DB || 'marmitify',
+      database: process.env.POSTGRES_DATABASE || 'marmitify',
       entities: [__dirname + '/modules/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
       autoLoadEntities: true, // Automatically load entities
