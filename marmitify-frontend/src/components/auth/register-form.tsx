@@ -6,6 +6,7 @@ import Link from "next/link"
 import { register } from "@/app/api/auth"
 import { Loader2Icon } from "lucide-react"
 import { toast } from "sonner"
+import { signIn } from "next-auth/react"
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -13,7 +14,7 @@ export function RegisterForm() {
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
     email: '',
-    username: '',
+    name: '',
     password: '',
     confirmPassword: ''
   });
@@ -23,11 +24,32 @@ export function RegisterForm() {
     setLoading(true)
     
     const email = form.email
-    const username = form.username
+    const name = form.name
     const password = form.password
 
     try {
-      const user = await register(email, username, password)
+      const user = await register(email, name, password)
+      if (user) {
+        toast.success("Usuário registrado com sucesso!")
+        signIn("credentials", {
+          email: form.email,
+          password: form.password,
+          redirect: true,
+          callbackUrl: "/dashboard",
+        }).then((result) => {
+          if (result?.error) {
+            toast.error("Erro ao logar", {
+              description: "Verifique suas credenciais e tente novamente.",
+            })
+          } else {
+            toast.success("Logado com sucesso!")
+          }
+        })
+      } else {
+        toast.error("Erro ao registrar usuário", {
+          description: "Verifique os dados e tente novamente.",
+        })
+      }
     } catch (error) {
       toast.error("Erro ao logar", {
         description: "Tente novamente mais tarde.",
@@ -76,7 +98,7 @@ export function RegisterForm() {
           <div className="relative">
             <User className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
-              onChange={(e) => setForm({ ...form, username: e.target.value })}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
               id="username"
               type="text"
               placeholder="Enter your User name"

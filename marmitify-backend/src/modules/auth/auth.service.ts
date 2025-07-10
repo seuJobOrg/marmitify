@@ -43,17 +43,20 @@ export class AuthService {
 
     async register(registerDto: RegisterDto) {
         const existingUser = await this.usersService.findByEmail(registerDto.email);
-        // if (existingUser) {
-        //     throw new UnauthorizedException('User already exists');
-        // }
+        if (existingUser) {
+            throw new UnauthorizedException('User already exists');
+        }
 
-        // const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-        // const user = await this.usersService.create({
-        //     email: registerDto.email,
-        //     password: hashedPassword,
-        //     name: registerDto.name,
-        // });
+        const hashedPassword = await bcrypt.hash(registerDto.password, 10);
+        const user = await this.usersService.create({
+            email: registerDto.email,
+            password: hashedPassword,
+            name: registerDto.name,
+        });
 
-        return this.login({ email: existingUser?.email, password: registerDto.password});
+        if (user)
+            return this.login({ email: registerDto.email, password: registerDto.password});
+
+        throw new UnauthorizedException('Registration failed');
     }
 }

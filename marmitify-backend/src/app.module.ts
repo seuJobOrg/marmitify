@@ -25,7 +25,6 @@ import { AuthModule } from './modules/auth/auth.module';
       entities: [__dirname + '/modules/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
       autoLoadEntities: true, // Automatically load entities
-      ssl: true
     }),
     UserModule,
     ChefModule,
