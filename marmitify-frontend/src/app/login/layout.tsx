@@ -1,9 +1,7 @@
-"use client";
+"use client"
 
 import type React from "react"
-import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import "./styles/globals.css"
 import { SessionProvider } from "next-auth/react"
 
 const geistSans = Geist({
@@ -16,7 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,10 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <title>Marmitify</title>
-      <SessionProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
-      </SessionProvider>
-    </html>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <SessionProvider>
+            {children}
+          </SessionProvider>
+        </body>
+      </html>
+    
   )
 }

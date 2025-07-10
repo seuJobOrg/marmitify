@@ -1,3 +1,5 @@
+"use client";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image"
 import Link from "next/link"
 
@@ -7,6 +9,8 @@ interface HeaderProps {
 }
 
 export function Header({ variant = "default", className = "" }: HeaderProps) {
+  const { data: session } = useSession();
+
   if (variant === "split-left") {
     return (
       <div className={`h-[152px] flex items-center px-[100px] py-[36px] ${className}`}>
@@ -64,16 +68,35 @@ export function Header({ variant = "default", className = "" }: HeaderProps) {
 
       {/* Botões */}
       <div className="flex flex-row items-center w-[248px] h-[50px] gap-4">
-        <Link href="/register">
-          <button className="text-orange-600 cursor-pointer hover:text-orange-700 font-medium text-base">
-            Criar Conta
-          </button>
-        </Link>
-        <Link href="/login">
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-base cursor-pointer">
-            Entrar
-          </button>
-        </Link>
+        {
+          (!session) ? 
+          <div className="flex items-center justify-between w-50">
+            <Link href="/register">
+              <button className="text-orange-600 cursor-pointer hover:text-orange-700 font-medium text-base">
+                Criar Conta
+              </button>
+            </Link>
+            <Link href="/login">
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-base cursor-pointer">
+                Entrar
+              </button>
+            </Link>
+          </div>
+          :
+          <div className="flex items-center justify-between w-40 ">
+            <Link href="/profile">
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-base cursor-pointer">
+                Meu Perfil
+              </button>
+            </Link>
+            <button
+              onClick={() => signOut()}
+              className="text-red-600 cursor-pointer hover:text-red-700 font-medium text-base"
+            >
+              Sair
+            </button>
+          </div>
+        }
       </div>
     </header>
   )

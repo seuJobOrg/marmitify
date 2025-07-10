@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/layout/header"
+import { useSession } from "next-auth/react";
 
 export default function Page() {
+  const { data: session } = useSession();
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50">
       {/* Header */}
@@ -27,6 +31,11 @@ export default function Page() {
                 Sou chef
               </button>
             </Link>
+            <button 
+              onClick={() => console.log(session)}
+            className="text-orange-500 cursor-pointer hover:bg-orange-100 px-8 py-3 rounded-full text-lg font-semibold border border-orange-500 bg-transparent w-full">
+                Sou chef
+              </button>
           </div>
         </div>
 

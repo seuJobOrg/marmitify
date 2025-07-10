@@ -3,20 +3,49 @@
 import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
 import Link from "next/link"
+import { register } from "@/app/api/auth"
+import { Loader2Icon } from "lucide-react"
+import { toast } from "sonner"
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [form, setForm] = useState({
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault()
+    setLoading(true)
+    
+    const email = form.email
+    const username = form.username
+    const password = form.password
+
+    try {
+      const user = await register(email, username, password)
+    } catch (error) {
+      toast.error("Erro ao logar", {
+        description: "Tente novamente mais tarde.",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="w-full max-w-[400px] mt-[100px] space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Sign up</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">Registre-se</h1>
         <p className="text-gray-600 text-sm">
-          If you already have an account register <br />
-          You can{" "}
+          Se você já possui uma conta <br />
+          Você pode  {" "}
           <Link href="/login" className="text-red-500 font-medium cursor-pointer hover:underline">
-            login here !
+            logar aqui!
           </Link>
         </p>
       </div>
@@ -30,6 +59,7 @@ export function RegisterForm() {
           <div className="relative">
             <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
               id="email"
               type="email"
               placeholder="Enter your email address"
@@ -41,11 +71,12 @@ export function RegisterForm() {
         {/* Username Field */}
         <div>
           <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-3">
-            Username
+            Primeiro Nome
           </label>
           <div className="relative">
             <User className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
+              onChange={(e) => setForm({ ...form, username: e.target.value })}
               id="username"
               type="text"
               placeholder="Enter your User name"
@@ -57,12 +88,13 @@ export function RegisterForm() {
         {/* Password Field */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-3">
-            Password
+            Senha
           </label>
           <div className="relative">
             <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               id="password"
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
               type={showPassword ? "text" : "password"}
               placeholder="Enter your Password"
               className="w-full pl-8 pr-12 py-3 border-0 border-b border-gray-300 rounded-none bg-transparent focus:border-red-500 focus:ring-0 placeholder:text-gray-400 outline-none text-sm"
@@ -80,12 +112,13 @@ export function RegisterForm() {
         {/* Confirm Password Field */}
         <div>
           <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-3">
-            Confirm Password
+            Confirme a senha
           </label>
           <div className="relative">
             <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               id="confirmPassword"
+              onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm your Password"
               className="w-full pl-8 pr-12 py-3 border-0 border-b border-gray-300 rounded-none bg-transparent focus:border-red-500 focus:ring-0 placeholder:text-gray-400 outline-none text-sm"
@@ -102,10 +135,20 @@ export function RegisterForm() {
 
         {/* Register Button */}
         <button
+          onClick={handleRegister}
+          disabled={loading}
           type="submit"
           className="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white py-4 rounded-full text-lg font-medium transition-all duration-200 mt-8 cursor-pointer"
         >
-          Register
+          {
+            loading ? 
+            <span>
+              Carregando...
+              <Loader2Icon className="animate-spin" /> 
+            </span>
+            : 
+            "Registrar"
+          }
         </button>
       </form>
     </div>
