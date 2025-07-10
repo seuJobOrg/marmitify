@@ -164,10 +164,12 @@ export function RegisterForm() {
         >
           {
             loading ? 
-            <span>
+            <label>
               Carregando...
-              <Loader2Icon className="animate-spin" /> 
-            </span>
+              <span>
+                <Loader2Icon className="animate-spin" /> 
+              </span>
+            </label>
             : 
             "Registrar"
           }

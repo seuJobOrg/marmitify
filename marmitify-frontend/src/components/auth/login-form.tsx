@@ -24,10 +24,7 @@ export function LoginForm() {
         password: form.password,
         redirect: false
       });
-      if (session) {
-        // Redirect to dashboard or home page after successful login
-        window.location.href = "/dashboard";
-      }
+      window.location.href = "/dashboard";
     } catch (error) {
       toast.error("Erro ao logar", {
         description: "Tente novamente mais tarde.",
@@ -117,10 +114,12 @@ export function LoginForm() {
         >
           {
             loading ? 
-            <span>
+            <label>
               Carregando...
-              <Loader2Icon className="animate-spin" /> 
-            </span>
+              <span>
+                <Loader2Icon className="animate-spin" /> 
+              </span>
+            </label>
             : 
             "Login"
           }
