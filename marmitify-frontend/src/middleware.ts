@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const protectedRoutes = ['/dashboard', '/admin'];
+const protectedRoutes = ['/dashboard', '/perfil', '/admin'];
 
-const publicOnlyRoutes = ['/login', '/register',];
+const publicOnlyRoutes = ['/login', '/register'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -37,7 +37,7 @@ export const config = {
       '/login',
       '/register',
       '/dashboard/:path*',
+      '/perfil/:path*',
       '/admin/:path*',
     ],
   };
-  
