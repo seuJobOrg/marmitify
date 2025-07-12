@@ -47,17 +47,13 @@ export function Header() {
             >
               Meu Perfil
             </Link>
-            {
-              (session?.user?.chef === undefined) ?
-              <Link
-                href="/chef/register"
-                className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100"
-                onClick={() => setOpen(false)}
-              >
-                Torne-se um Chef
-              </Link>
-              : null
-            }
+            <Link
+              href="/chef/register"
+              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100"
+              onClick={() => setOpen(false)}
+            >
+              Torne-se um Chef
+            </Link>
             <Link
               href=""
               className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100"
