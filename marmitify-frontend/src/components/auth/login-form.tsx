@@ -22,9 +22,9 @@ export function LoginForm() {
       await signIn("credentials", {
         email: form.email,
         password: form.password,
-        redirect: false
+        redirect: true,
+        callbackUrl: "/dashboard",
       });
-      window.location.href = "/dashboard";
     } catch (error) {
       toast.error("Erro ao logar", {
         description: "Tente novamente mais tarde.",

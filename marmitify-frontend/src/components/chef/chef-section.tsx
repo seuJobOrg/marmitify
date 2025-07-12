@@ -2,19 +2,11 @@
 
 import { useRef, useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { ChefCard } from "@/components/chef/chefCard"
+import { ChefCard } from "@/components/chef/chef-card"
 
-const chefs = Array.from({ length: 3 }, (_, i) => ({
-  id: i,
-  name: `Comida Mexicana ${i + 1}`,
-  description: "Ex-cozinheiro do flamengo. Em dia de sopa, eu levava garfo para Adriano Imperador.",
-  rating: 4.6,
-  reviews: 155,
-  tags: ["vegetariana", "italiana"],
-  image: "https://images.unsplash.com/photo-1474600056930-615c3d706456?auto=format&fit=crop&w=800&q=60",
-}))
-
-export function ChefSection() {
+export function ChefSection({
+  chefs = []
+}) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -26,7 +18,6 @@ export function ChefSection() {
     const { scrollLeft, scrollWidth, clientWidth } = el
     setCanScrollLeft(scrollLeft > 0)
     
-    // Margem maior para evitar falsos negativos
     const hasMoreContent = scrollLeft + clientWidth < scrollWidth - 10
     setCanScrollRight(hasMoreContent)
   }
@@ -47,7 +38,6 @@ export function ChefSection() {
     return () => el.removeEventListener("scroll", updateScrollButtons)
   }, [])
 
-  // Recalcula quando a lista de chefs mudar
   useEffect(() => {
     updateScrollButtons()
   }, [chefs])
@@ -69,6 +59,7 @@ export function ChefSection() {
         className="flex overflow-x-auto gap-6 scrollbar-hide scroll-smooth"
       >
         {chefs.map((chef) => (
+          // @ts-ignore
           <ChefCard key={chef.id} {...chef} />
         ))}
       </div>

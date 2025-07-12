@@ -1,13 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { User } from "lucide-react"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 
 export function Header() {
    const [open, setOpen] = useState(false)
+   const { data: session } = useSession();
+
+  useEffect(() => {
+    console.log("Session data:", session);
+  }, [session]);
 
   return (
     <header className="w-full h-[100px] bg-orange-500 flex items-center justify-between px-[100px] relative">
@@ -42,6 +47,17 @@ export function Header() {
             >
               Meu Perfil
             </Link>
+            {
+              (session?.user?.chef === undefined) ?
+              <Link
+                href="/chef/register"
+                className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100"
+                onClick={() => setOpen(false)}
+              >
+                Torne-se um Chef
+              </Link>
+              : null
+            }
             <Link
               href=""
               className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100"

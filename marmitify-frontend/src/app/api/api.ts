@@ -29,7 +29,6 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    console.log('Resposta Recebida:', response);
     return response;
   },
   (error) => {

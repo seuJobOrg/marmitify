@@ -1,36 +1,47 @@
-import { Star, BriefcaseBusiness } from "lucide-react"
+import { Star, MapPinHouse } from "lucide-react"
 
 interface ChefCardProps {
-  name: string
-  description: string
-  rating: number
-  reviews: number
-  tags: string[]
-  image: string
+  user: {
+    name: string;
+    email: string;
+  };
+  description: string;
+  address: string;
+  phone: string;
+  image?: string;
 }
 
 export function ChefCard({
-  name,
+  user,
   description,
-  rating,
-  reviews,
-  tags,
-  image,
+  address,
+  phone,
+  image = "",
 }: ChefCardProps) {
+  // Default user image (avatar placeholder)
+  const defaultImage =
+    "https://ui-avatars.com/api/?name=" +
+    encodeURIComponent(user.name) +
+    "&background=cccccc&color=555555&size=256";
+
   return (
     <div className="w-[600px] min-w-[600px] h-[250px] bg-white rounded-md shadow-md overflow-hidden grid grid-cols-[2fr_3fr_auto]">
       {/* Imagem */}
       <div className="h-full w-full">
-        <img src={image} alt={name} className="w-full h-full object-cover" />
+        <img
+          src={image || defaultImage}
+          className="w-full h-full object-cover"
+          alt={user.name}
+        />
       </div>
 
       {/* Conteúdo */}
       <div className="p-5 flex flex-col justify-between">
         <div>
-          <h3 className="text-lg font-semibold">{name}</h3>
+          <h3 className="text-lg font-semibold">{user.name}</h3>
 
           <div className="flex gap-2 mt-1 flex-wrap">
-            {tags.map((tag, idx) => (
+            {[].map((tag, idx) => (
               <span
                 key={idx}
                 className={`text-[10px] text-white px-2 py-[2px] rounded-full uppercase ${
@@ -44,13 +55,15 @@ export function ChefCard({
 
           <p className="text-sm mt-2 text-gray-700">{description}</p>
         </div>
+        <div className="flex items-center justify-between mt-4">
 
-        <div className="flex gap-4 text-sm font-medium mt-2">
-          <div className="flex items-center gap-1 text-yellow-500">
-            <Star /> {rating}
+          <div className="flex items-center gap-2 text-gray-600">
+            <MapPinHouse className="w-4 h-4" />
+            <span>{address}</span>
           </div>
-          <div className="flex items-center gap-1 text-pink-600">
-            <BriefcaseBusiness className="text-black" /> <span className="text-black">{reviews} Avaliações</span>
+
+          <div className="text-gray-600">
+            <span>{phone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}</span>
           </div>
         </div>
       </div>

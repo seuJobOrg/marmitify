@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const protectedRoutes = ['/dashboard', '/perfil', '/admin'];
+const protectedRoutes = ['/dashboard', '/perfil', '/admin', '/chef'];
 
 const publicOnlyRoutes = ['/login', '/register'];
 
@@ -38,6 +38,7 @@ export const config = {
       '/register',
       '/dashboard/:path*',
       '/perfil/:path*',
+      '/chef/:path*',
       '/admin/:path*',
     ],
   };

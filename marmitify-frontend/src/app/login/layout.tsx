@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { Geist, Geist_Mono } from "next/font/google"
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from 'next-auth/react'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

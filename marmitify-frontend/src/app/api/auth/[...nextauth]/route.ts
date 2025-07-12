@@ -18,11 +18,12 @@ const handler = NextAuth({
             password: credentials!.password,
           });
 
-          const { access_token, user } = res.data;
+          const { access_token, user, chef } = res.data;
           if (access_token && user) {
-            return { 
+            return {
               access_token,
-              ...user
+              ...user,
+              ...chef
             };
           }
           return null;
@@ -45,7 +46,6 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      console.log("Session Callback:", session, token);
       // @ts-ignore
       session.accessToken = token.accessToken;
       return session;

@@ -1,14 +1,31 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronDown, Loader2Icon } from "lucide-react"
 import { MealTabs } from "@/components/card/mealTabs"
-import { ChefSection } from "@/components/chef/chefSection"
+import { ChefSection } from "@/components/chef/chef-section"
 import { useSession } from "next-auth/react"
+import { obterChefs } from "../api/chef"
 
 export default function DashboardPage() {
   const { data: session } = useSession();
-  
+  const [chefs, setChefs] = useState([]);
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchChefs = async () => {
+      try {
+        const data = await obterChefs();
+        setChefs(data);
+      } catch (error) {
+        console.error("Erro ao obter chefs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchChefs();
+  }, []);
+
   const [address] = useState("Rua da Baixada, 161")
 
   if (!session) {
@@ -40,8 +57,9 @@ export default function DashboardPage() {
         <h3 className="text-2xl mt-6 font-semibold text-zinc-900">
             Chefes especiais
         </h3>
-  
-        <ChefSection />
+
+        {/* @ts-ignore */}
+        <ChefSection chefs={chefs.filter((chef) => chef.user.email != session.user.email)} />
       </div>
     )
   }
