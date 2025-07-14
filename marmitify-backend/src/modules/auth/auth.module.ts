@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from '../user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ChefModule } from '../chef/chef.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -12,6 +13,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
             envFilePath: '.env',
         }),
         UserModule,
+        ChefModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET,
             signOptions: { expiresIn: '24h' },

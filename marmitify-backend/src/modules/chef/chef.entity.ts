@@ -14,28 +14,10 @@ export class Chef {
     phone: string;
 
     @Column({ type: 'text', nullable: true })
-    bio: string;
-
-    @Column({ nullable: true })
-    avatar: string;
-
-    @Column({ default: true })
-    isActive: boolean;
-
-    @Column({ length: 100 })
-    fullName: string;
-
-    @Column({ length: 50 })
-    cuisineType: string;
-
-    @Column({ type: 'text' })
-    experience: string;
+    description: string;
 
     @Column({ type: 'text', nullable: true })
-    profilePicture: string;
-    
-    @Column({ type: 'text' })
-    briefDescription: string;
+    address: string;
 
     @CreateDateColumn()
     createdAt: Date;
