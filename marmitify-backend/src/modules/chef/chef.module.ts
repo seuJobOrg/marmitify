@@ -3,6 +3,7 @@ import { ChefController } from './chef.controller';
 import { ChefService } from './chef.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Chef } from './chef.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
     controllers: [ChefController],
@@ -10,6 +11,7 @@ import { Chef } from './chef.entity';
     exports: [ChefService],
     imports: [
         TypeOrmModule.forFeature([Chef]),
+        UserModule,
     ],
 })
 export class ChefModule {}

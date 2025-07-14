@@ -7,7 +7,7 @@ import { UpdateChefDto } from './dto/update-chef-dto';
 export class ChefController {
     constructor(private readonly chefService: ChefService) {}
 
-    @Post()
+    @Post('')
     create(@Body() createChefDto: CreateChefDto) {
         return this.chefService.create(createChefDto);
     }

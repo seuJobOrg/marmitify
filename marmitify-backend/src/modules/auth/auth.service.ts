@@ -3,12 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register-dto';
+import { ChefService } from '../chef/chef.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UserService,
         private jwtService: JwtService,
+        private chefeService: ChefService,
     ) {}
 
     async validateUser(email: string, password: string): Promise<any> {
@@ -28,11 +30,14 @@ export class AuthService {
         try {
             const payload = await this.validateUser(user.email, user.password);
             const token = await this.jwtService.signAsync(payload);
+            const chef = await this.chefeService.findByUserId(payload.id);
             return {
                 access_token: token,
                 user: {
+                    id: payload.id,
                     email: payload.email,
                     name: payload.name,
+                    chef: chef,
                 },
             };
         } catch (error) {
