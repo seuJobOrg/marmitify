@@ -1,18 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { User } from "lucide-react"
-import { signOut, useSession } from "next-auth/react"
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { User } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
 export function Header() {
-   const [open, setOpen] = useState(false)
-   const { data: session } = useSession();
+  const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
 
-  useEffect(() => {
-    console.log("Session data:", session);
-  }, [session]);
+  useEffect(() => {}, [session]);
 
   return (
     <header className="w-full h-[100px] bg-orange-500 flex items-center justify-between px-[100px] relative">
@@ -65,5 +63,5 @@ export function Header() {
         )}
       </div>
     </header>
-  )
+  );
 }
