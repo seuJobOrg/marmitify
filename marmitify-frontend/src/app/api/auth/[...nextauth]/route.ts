@@ -13,17 +13,20 @@ const handler = NextAuth({
       // @ts-ignore
       async authorize(credentials) {
         try {
-          const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-            email: credentials!.email,
-            password: credentials!.password,
-          });
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+            {
+              email: credentials!.email,
+              password: credentials!.password,
+            }
+          );
 
           const { access_token, user, chef } = res.data;
           if (access_token && user) {
             return {
               access_token,
               ...user,
-              ...chef
+              ...chef,
             };
           }
           return null;
@@ -40,14 +43,26 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       // @ts-ignore
       if (user?.access_token) {
-      // @ts-ignore
+        // @ts-ignore
         token.accessToken = user.access_token;
+        // @ts-ignore
+        token.id = user.id;
+        // @ts-ignore
+        token.name = user.name;
+        // @ts-ignore
+        token.email = user.email;
       }
       return token;
     },
     async session({ session, token }) {
       // @ts-ignore
       session.accessToken = token.accessToken;
+      // @ts-ignore
+      session.user.id = token.id;
+      // @ts-ignore
+      session.user.name = token.name;
+      // @ts-ignore
+      session.user.email = token.email;
       return session;
     },
   },
