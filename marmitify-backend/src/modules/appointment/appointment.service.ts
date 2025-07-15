@@ -64,14 +64,14 @@ export class AppointmentService {
   async findByChefId(chefId: number): Promise<Appointment[]> {
     return await this.appointmentRepository.find({
       where: { chef: { id: chefId } },
-      relations: ['user'],
+      relations: ['user', 'chef', 'chef.user'],
     });
   }
 
   async findByUserId(userId: number): Promise<Appointment[]> {
     return await this.appointmentRepository.find({
       where: { user: { id: userId } },
-      relations: ['chef'],
+      relations: ['chef', 'chef.user'],
     });
   }
 }
