@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 const chefProfile = {
   name: "Chef Caio",
   description: "Erro ao carregar descrição. Tente novamente mais tarde.",
+  imageUrl: "https://placehold.co/600x400",
 };
 
 export default function ChefProfilePage() {
