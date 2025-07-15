@@ -8,6 +8,7 @@ import api from "@/app/api/api";
 import { CalendarDays, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/header-logged";
 import Link from "next/link";
+import { BreadcrumbComponent } from "@/components/layout/breadcrumb";
 
 interface Appointment {
   id: string;
@@ -47,9 +48,7 @@ export default function AppointmentsPage() {
 
         const response = await api.get(`/appointments/user/${session.user.id}`);
         setAppointments(response.data);
-        console.log("Appointments fetched:", appointments);
       } catch (err: any) {
-        console.error("Error fetching appointments:", err);
         setError(err.message || "Erro ao carregar agendamentos");
       } finally {
         setLoading(false);
@@ -98,6 +97,11 @@ export default function AppointmentsPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
           <div className="flex flex-col">
+            <BreadcrumbComponent
+              items={[
+                { to: "dashboard", label: "Dashboard" },
+                { to: "appointments", label: "Meus Agendamentos" },
+              ]}/>
             <div className="flex items-center gap-3 mb-2">
               <CalendarDays className="w-8 h-8 text-orange-500" />
               <h1 className="text-3xl font-bold text-gray-800">

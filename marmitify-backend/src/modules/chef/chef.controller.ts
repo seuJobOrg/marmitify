@@ -17,7 +17,7 @@ export class ChefController {
         return this.chefService.findAll();
     }
 
-    @Get(':id')
+    @Get('/:id')
     findOne(@Param('id') id: number) {
         return this.chefService.findOne(id);
     }

@@ -6,6 +6,7 @@ import { Loader2Icon } from "lucide-react";
 import { obterChefs } from "../api/chef";
 import { toast } from "sonner";
 import { AppointmentModal } from "@/components/chef/appointment-modal";
+import { BreadcrumbComponent } from "@/components/layout/breadcrumb";
 
 interface Chef {
   id: number;
@@ -64,6 +65,12 @@ export default function SearchChefsPage() {
 
   return (
     <div className="max-w-7xl mx-auto pt-10 px-4">
+      <BreadcrumbComponent
+        items={[
+          { to: "dashboard", label: "Dashboard" },
+          { to: "searchChefs", label: "Buscar Chefs" }
+        ]}
+      />
       <h1 className="text-3xl font-bold text-zinc-900 mb-8">Buscar Chefs</h1>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">

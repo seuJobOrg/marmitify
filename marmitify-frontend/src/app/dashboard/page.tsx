@@ -7,6 +7,7 @@ import { ChefSection } from "@/components/chef/chef-section";
 import { useSession } from "next-auth/react";
 import { obterChefs } from "../api/chef";
 import Link from "next/link";
+import { BreadcrumbComponent } from "@/components/layout/breadcrumb";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
@@ -40,6 +41,11 @@ export default function DashboardPage() {
   } else {
     return (
       <div className="max-w-7xl mx-auto pt-10">
+        <BreadcrumbComponent 
+            items={[
+              { to: "dashboard", label: "Dashboard" }
+            ]}
+          />
         {/* Cabeçalho: saudação + endereço */}
         <section className="mb-10 flex justify-between items-center">
           <div>

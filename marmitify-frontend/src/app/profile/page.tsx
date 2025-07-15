@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarDays, Star } from "lucide-react";
 import { Header } from "@/components/layout/header-logged";
+import { BreadcrumbComponent } from "@/components/layout/breadcrumb";
+import { getSession, useSession } from "next-auth/react";
 
 export default function ChefProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [session, setSession] = useState<any>(null);
   const ingredientes = [
     "Tortilla de trigo",
     "Queijo mussarela",
@@ -20,11 +22,33 @@ export default function ChefProfilePage() {
     "Azeite de oliva",
   ];
 
+  const sessao = async () => {
+    setSession(await getSession());
+  }
+
+  useEffect(() => {
+    sessao();
+    // Simula carregamento de dados
+    const timer = setTimeout(() => {
+      // Aqui você pode buscar dados do chef, se necessário
+    }, 1000);
+
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <Header />
       <main className="px-[100px]">
         <section className="max-w-7xl mx-auto pt-10">
+          <BreadcrumbComponent
+            items={
+              [
+                { label: "Dashboard", to: "dashboard" },
+                { label: "Perfil do Chef", to: "profile" },
+              ]
+            }/>
           {/* Header com imagem e nome */}
           <div className="flex flex-col md:flex-row gap-6">
             <div className="w-full md:w-1/3 relative rounded-2xl overflow-hidden shadow-md">
