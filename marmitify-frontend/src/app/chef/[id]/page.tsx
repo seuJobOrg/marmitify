@@ -33,9 +33,6 @@ export default function ChefProfilePage() {
   }
 
   return (
-    <>
-      <Header/>
-      <ChefProfileComponent chef={chef}/>
-    </>
+    <ChefProfileComponent chef={chef}/>
   );
 }
