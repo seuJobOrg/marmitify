@@ -1,10 +1,8 @@
 "use client";
 
-import { Header } from "@/components/layout/header-logged";
-import React, { useEffect, useInsertionEffect } from "react";
-import { ChevronDown, Loader2Icon } from "lucide-react";
+import React from "react";
+import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { userIsChef } from "../api/user";
 import { BreadcrumbComponent } from "@/components/layout/breadcrumb";
 
 const chefProfile = {
@@ -61,6 +59,7 @@ export default function ChefProfilePage() {
                   <textarea
                     id="description"
                     rows={3}
+                    //@ts-ignore
                     defaultValue={session.user.chef?.description || ""}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="Descreva sua experiência culinária..."
@@ -74,6 +73,7 @@ export default function ChefProfilePage() {
                   <input
                     type="url"
                     id="imageUrl"
+                    //@ts-ignore
                     defaultValue={session.user.chef?.imageUrl || ""}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="https://exemplo.com/imagem.jpg"
