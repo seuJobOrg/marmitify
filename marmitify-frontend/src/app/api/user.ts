@@ -9,7 +9,7 @@ export const buscaUser = async (userId: number, token = "") => {
         });
         return response.data;
     } catch (error) {
-        throw new Error(error);
+        throw new Error("Erro ao buscar usuário");
     }
 }
 

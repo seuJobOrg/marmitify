@@ -42,7 +42,7 @@ export async function obterChefPorIdUser(id: number) {
     const response = await api.get(`/chefs/user/${id}`);
     return response.data;
   } catch (error) {
-    throw new Error(error);
+    throw new Error("Erro ao obter chef por ID de usuário");
   }
 }
 
