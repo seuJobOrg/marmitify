@@ -1,41 +1,58 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import { CalendarDays, Star } from "lucide-react";
 import { Header } from "@/components/layout/header-logged";
 import { BreadcrumbComponent } from "@/components/layout/breadcrumb";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { atualizaUser } from "../api/user";
+import { toast } from "sonner";
 
 export default function ChefProfilePage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [session, setSession] = useState<any>(null);
-  const ingredientes = [
-    "Tortilla de trigo",
-    "Queijo mussarela",
-    "Pimentão vermelho",
-    "Cebola roxa",
-    "Frango desfiado",
-    "Pimenta jalapeño",
-    "Milho",
-    "Creme de leite",
-    "Coentro fresco",
-    "Azeite de oliva",
-  ];
+  const { data:session, update } = useSession();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+  });
+  const [loading, setLoading] = useState(false);
 
-  const sessao = async () => {
-    setSession(await getSession());
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    if (session?.user.id) {
+      //@ts-ignore
+      atualizaUser(session.user.id, form).then(async () => {
+        await update();
+        setLoading(false);
+        toast.success("Usuário atualizado com sucesso!");
+      }).catch((error) => {
+        console.error("Erro ao atualizar usuário:", error);
+        setLoading(false);
+        toast.error("Erro ao atualizar usuário. Tente novamente mais tarde.");
+      });
+    }
   }
 
-  useEffect(() => {
-    sessao();
-    // Simula carregamento de dados
-    const timer = setTimeout(() => {
-      // Aqui você pode buscar dados do chef, se necessário
-    }, 1000);
+  if (!session) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 to-pink-50">
+        <div className="text-center">
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
+  if (form.email === "" && form.name === "") {
+    setForm({
+      name: session.user.name || "",
+      email: session.user.email || "",
+    });
+  }
 
-    return () => clearTimeout(timer);
-  }, []);
+  const defaultImage =
+    "https://ui-avatars.com/api/?name=" +
+    encodeURIComponent(session.user.name) +
+    "&background=cccccc&color=555555&size=256";
 
   return (
     <>
@@ -46,122 +63,57 @@ export default function ChefProfilePage() {
             items={
               [
                 { label: "Dashboard", to: "dashboard" },
-                { label: "Perfil do Chef", to: "profile" },
+                { label: "Perfil", to: "profile" },
               ]
             }/>
           {/* Header com imagem e nome */}
+          <h1>Suas informações: </h1>
           <div className="flex flex-col md:flex-row gap-6">
             <div className="w-full md:w-1/3 relative rounded-2xl overflow-hidden shadow-md">
               <img
-                src="https://images.unsplash.com/photo-1474600056930-615c3d706456?auto=format&fit=crop&w=800&q=60"
-                alt="Chef Javier"
+                src={session.user.image || defaultImage}
                 width={600}
                 height={400}
                 className="w-full h-full object-cover"
               />
-              <span className="absolute top-4 left-4 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-semibold">
-                Chef Profissional
-              </span>
             </div>
 
-            <div className="flex-1 flex flex-col justify-between">
-              <div>
-                <h1 className="text-3xl font-bold">Javier Alison</h1>
-                <p className="text-gray-600 text-sm mb-2">
-                  Barcelona, Espanha · 4 anos de experiência
-                </p>
-                <div className="flex items-center gap-2 mb-2">
-                  <Star className="text-yellow-500 w-5 h-5" />
-                  <span className="font-semibold text-lg">4.5</span>
-                  <span className="text-sm text-gray-500">
-                    (482 avaliações)
-                  </span>
-                </div>
-
-                <div className="flex gap-2 flex-wrap mt-2">
-                  <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
-                    #Vegetariana
-                  </span>
-                  <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded-full">
-                    #Italiana
-                  </span>
-                </div>
-
-                <p className="mt-4 text-gray-700 leading-relaxed">
-                  Javier Alison é conhecido por sua culinária mediterrânea
-                  inovadora. Ele já cozinhou para celebridades e treinou em
-                  escolas renomadas na Itália e na Espanha. Seu prato favorito é
-                  a quesadilla com toque catalão.
-                </p>
-              </div>
-
-              <button className="mt-6 inline-flex items-center bg-orange-500 text-white px-4 py-2 rounded-full shadow hover:bg-orange-600 transition w-fit">
-                <CalendarDays className="mr-2 w-5 h-5" />
-                Agendar com o chef
-              </button>
-            </div>
-          </div>
-
-          {/* Seção de pratos */}
-          <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Pratos principais</h2>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="rounded-xl border shadow-sm overflow-hidden hover:shadow-md transition"
-                >
-                  <img
-                    src="https://cdn.deliway.com.br/blog/base/045/cf8/3ab/chili-com-carne.jpg"
-                    width={400}
-                    height={250}
-                    className="w-full h-48 object-cover"
+            <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow-md">
+              <form className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Nome
+                  </label>
+                  <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                   />
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg mb-1">
-                      Quesadilla Gourmet
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-2">
-                      Ingredientes: 10 · Tempo: 40 min
-                    </p>
-                    <button
-                      onClick={() => setIsModalOpen(true)}
-                      className="text-orange-600 font-semibold hover:underline text-sm"
-                    >
-                      Ver detalhes
-                    </button>
-                  </div>
                 </div>
-              ))}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <button
+                  disabled={loading}
+                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
+                >
+                  Salvar
+                </button>
+              </form>
             </div>
           </div>
         </section>
       </main>
-
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 relative">
-            {/* Modal header */}
-            <div className="flex justify-between items-center border-b pb-2 mb-4">
-              <h2 className="text-xl font-bold">Ingredientes</h2>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-gray-500 hover:text-gray-800 text-lg"
-              >
-                ×
-              </button>
-            </div>
-
-            <ul className="list-disc pl-5 space-y-1 text-gray-700 text-sm">
-              {ingredientes.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
     </>
   );
 }

@@ -37,6 +37,15 @@ export async function obterChefPorId(id: number) {
   }
 }
 
+export async function obterChefPorIdUser(id: number) {
+  try {
+    const response = await api.get(`/chefs/user/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export async function atualizarChef(
   id: number,
   description: string,

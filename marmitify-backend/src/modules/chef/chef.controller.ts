@@ -22,6 +22,11 @@ export class ChefController {
         return this.chefService.findOne(id);
     }
 
+    @Get('/user/:id')
+    findOneByUserId(@Param('id') id: number) {
+        return this.chefService.findByUserId(id);
+    }
+
     @Put(':id')
     update(@Param('id') id: number, @Body() updateChefDto: UpdateChefDto) {
         return this.chefService.update(id, updateChefDto);

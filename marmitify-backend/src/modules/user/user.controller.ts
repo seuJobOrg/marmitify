@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
-import { Controller, Delete, Get, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
@@ -30,29 +30,34 @@ export class UserController {
 
     @Get('/:id')
     @UseGuards(AuthGuard('jwt'))
-    async getUserById(req: Request, res: Response) {
+    async getUserById(@Param('id') id: number, req: Request) {
         try {
-            const user = await this.userService.findOne(parseInt(req.params.id));
+            const user = await this.userService.findOne(id);
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return { message: 'User not found' };
             }
-            return res.status(200).json(user);
+            return user;
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return { message: error.message };
         }
     }
 
-    @Put('/')
+    @Put('/:id')
     @UseGuards(AuthGuard('jwt'))
-    async updateUser(req: Request, res: Response) {
+    async updateUser(@Param('id') id: number, @Body() body: any) {
         try {
-            const updatedUser = await this.userService.update(parseInt(req.params.id), req.body);
+            const updatedUser = await this.userService.update(id, body);
             if (!updatedUser) {
-                return res.status(404).json({ message: 'User not found' });
+                return { message: 'User not found' };
             }
-            return res.status(200).json(updatedUser);
+            return {
+                message: 'User updated successfully',
+                user: updatedUser
+            };
         } catch (error) {
-            return res.status(400).json({ message: error.message });
+            return {
+                message: error.message || 'An error occurred while updating the user',
+            }
         }
     }
 
@@ -76,9 +81,9 @@ export class UserController {
         try {
             const userId = parseInt(req.params.id);
             const isChef = await this.userService.isChef(userId);
-            return res.status(200).json({ isChef });
+            return isChef;
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return { message: error.message };
         }
     }
 }
