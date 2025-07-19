@@ -80,5 +80,3 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/marmitify:latest
             ${{ secrets.DOCKER_USERNAME }}/marmitify:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max 
