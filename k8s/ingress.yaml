@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: marmitify-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: marmitify.duckdns.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: marmitify-service
+                port:
+                  number: 3000
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: marmitify-service
+                port:
+                  number: 3001
