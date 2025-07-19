@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'marmitify'
+    static_configs:
+      - targets: ['marmitify:3001']

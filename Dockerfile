@@ -56,4 +56,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD nc -z localhost 3000 && nc -z localhost 3001 || exit 1
 
 # Comando de inicialização
-CMD ["./start.sh"]
+CMD ["/app/start.sh"]

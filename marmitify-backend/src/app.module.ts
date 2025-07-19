@@ -8,6 +8,7 @@ import { ChefModule } from './modules/chef/chef.module';
 import { ClientModule } from './modules/client/client.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './modules/auth/auth.module';
       synchronize: true, // Set to false in production
       autoLoadEntities: true, // Automatically load entities
     }),
+    PrometheusModule.register(),
     UserModule,
     ChefModule,
     ClientModule,
