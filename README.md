@@ -93,4 +93,33 @@
 - [`k8s/prometheus.yaml`](k8s/prometheus.yaml): Monitoramento Prometheus
 - [`k8s/grafana.yaml`](k8s/grafana.yaml): Dashboard Grafana
 
+## Funcionalidades Kubernetes
+
+- **Ingress HTTP com DNS Gratuito:**  
+  A aplicação é exposta via recurso Ingress, permitindo acesso externo pelo domínio [marmitify.duckdns.org](http://marmitify.duckdns.org) (configurável). O DNS gratuito DuckDNS é utilizado para facilitar o acesso ao cluster.
+
+- **Probes de Saúde (Liveness, Readiness e Startup):**  
+  O deployment da aplicação utiliza probes para monitorar e garantir a saúde dos pods:
+  - **Liveness Probe:** Reinicia o pod automaticamente caso o backend trave.
+  - **Readiness Probe:** Garante que o frontend só recebe tráfego quando está pronto.
+  - **Startup Probe:** Dá tempo extra para o backend iniciar antes de ativar as outras probes.
+
+- **Manifestos prontos para cloud:**  
+  Todos os recursos (banco, aplicação, monitoramento, ingress) já estão definidos em YAML na pasta [`k8s/`](k8s/), facilitando o deploy em qualquer cluster Kubernetes.
+
+---
+
+## Exemplo de acesso via Ingress
+
+Após configurar o Ingress e o DNS, acesse:
+- Frontend: [http://marmitify.duckdns.org/](http://marmitify.duckdns.org/)
+- Backend: [http://marmitify.duckdns.org/api](http://marmitify.duckdns.org/api)
+
+---
+
+## Observações
+
+- Para testar o Ingress localmente, adicione o IP do Ingress Controller e o domínio no arquivo `hosts` do seu sistema.
+- Para produção, basta apontar o DNS do DuckDNS para o IP público do Ingress Controller na cloud.
+
 ---
