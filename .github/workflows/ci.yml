@@ -97,3 +97,22 @@ jobs:
           body: "Release do Marmitify"
           draft: false
           prerelease: false
+  # deploy-gke:
+  #   name: Deploy no GKE
+  #   runs-on: ubuntu-latest
+  #   needs: [docker-build, release]
+  #   if: false # Ative quando for usar o cloud
+  #   steps:
+  #     - name: Checkout código
+  #       uses: actions/checkout@v2
+  #     - name: Autenticar no Google Cloud
+  #       uses: google-github-actions/auth@v2
+  #       with:
+  #         credentials_json: '${{ secrets.GCP_SA_KEY }}'
+  #     - name: Configurar kubectl
+  #       uses: google-github-actions/get-gke-credentials@v2
+  #       with:
+  #         cluster_name: marmitify-cluster
+  #         location: us-central1-c
+  #     - name: Aplicar manifestos Kubernetes
+  #       run: kubectl apply -f k8s/

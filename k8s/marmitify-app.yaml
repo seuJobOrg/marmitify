@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: marmitify-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: frontend
+      port: 3000
+      targetPort: 3000
+    - name: backend
+      port: 3001
+      targetPort: 3001
+  selector:
+    app: marmitify
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marmitify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: marmitify
+  template:
+    metadata:
+      labels:
+        app: marmitify
+    spec:
+      containers:
+        - name: marmitify
+          image: silasnh/marmitify:latest
+          ports:
+            - containerPort: 3000
+            - containerPort: 3001
+          env:
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DATABASE
+              value: marmitify
+            - name: POSTGRES_URL
+              value: postgres://postgres:postgres@postgres:5432/marmitify
+            - name: NODE_ENV
+              value: production
+            - name: JWT_SECRET
+              value: dev-jwt-secret-123
+            - name: NEXTAUTH_SECRET
+              value: dev-nextauth-secret-123
+            - name: NEXTAUTH_URL
+              value: http://localhost:3000
+            - name: NEXT_PUBLIC_API_URL
+              value: http://localhost:3001
