@@ -3,7 +3,7 @@ name: Pipeline CI
 on:
   push:
     branches-ignore:
-      - main
+      - '**'
   pull_request:
     types: [closed]
     branches:
