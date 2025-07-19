@@ -89,12 +89,6 @@ jobs:
       - name:  Checkout código
         uses: actions/checkout@v2
 
-      - name: Criar Tag
-        id: create_tag
-        run: |
-          git tag "v${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
-
       - name: Criar Release
         uses: softprops/action-gh-release@v1
         with:
