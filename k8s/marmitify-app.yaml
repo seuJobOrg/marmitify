@@ -57,3 +57,19 @@ spec:
               value: http://localhost:3000
             - name: NEXT_PUBLIC_API_URL
               value: http://localhost:3001
+          livenessProbe:
+            tcpSocket:
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 3001
+            failureThreshold: 10
+            periodSeconds: 5
