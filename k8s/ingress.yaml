@@ -8,7 +8,7 @@ metadata:
 spec:
   tls:
     - hosts:
-      - marmitify.duckdns.org
+        - marmitify.duckdns.org
       secretName: marmitify-tls
   rules:
     - host: marmitify.duckdns.org
