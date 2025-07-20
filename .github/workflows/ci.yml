@@ -83,25 +83,6 @@ jobs:
           docker build -t us-central1-docker.pkg.dev/${{secrets.GCP_PROJECT_ID}}/marmitify/marmitify:latest .
           docker push us-central1-docker.pkg.dev/${{secrets.GCP_PROJECT_ID}}/marmitify/marmitify:latest
 
-  release:
-    name: Criar Tag e Release
-    runs-on: ubuntu-latest
-    needs: [docker-build]
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v2
-
-      - name: Criar Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: "v${{ github.run_number }}"
-          name: "Release v${{ github.run_number }}"
-          body: "Release do Marmitify"
-          draft: false
-          prerelease: false
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   deploy-gke:
     name: Deploy no GKE
     runs-on: ubuntu-latest
@@ -121,3 +102,22 @@ jobs:
           location: us-central1-c
       - name: Aplicar manifestos Kubernetes
         run: kubectl apply -f k8s/
+
+  release:
+    name: Criar Tag e Release
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v2
+
+      - name: Criar Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ github.run_number }}"
+          name: "Release v${{ github.run_number }}"
+          body: "Release do Marmitify"
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
