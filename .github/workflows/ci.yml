@@ -77,8 +77,8 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
-          docker build -t us-central1-docker.pkg.dev/$GCP_PROJECT_ID/marmitify/marmitify:latest .
-          docker push us-central1-docker.pkg.dev/$GCP_PROJECT_ID/marmitify/marmitify:latest
+          docker build -t us-central1-docker.pkg.dev/${{secrets.GCP_PROJECT_ID}}/marmitify/marmitify:latest .
+          docker push us-central1-docker.pkg.dev/${{secrets.GCP_PROJECT_ID}}/marmitify/marmitify:latest
 
   release:
     name: Criar Tag e Release
