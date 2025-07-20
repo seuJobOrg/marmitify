@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: marmitify
-          image: silasnh/marmitify:latest
+          image: us-central1-docker.pkg.dev/marmitify/marmitify/marmitify:latest
           ports:
             - containerPort: 3000
             - containerPort: 3001
@@ -54,9 +54,9 @@ spec:
             - name: NEXTAUTH_SECRET
               value: dev-nextauth-secret-123
             - name: NEXTAUTH_URL
-              value: http://localhost:3000
+              value: http://marmitify.duckdns.org
             - name: NEXT_PUBLIC_API_URL
-              value: http://localhost:3001
+              value: http://marmitify.duckdns.org:3001
           livenessProbe:
             tcpSocket:
               port: 3001
