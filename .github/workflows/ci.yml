@@ -65,6 +65,9 @@ jobs:
     needs: [frontend-ci, backend-ci]
 
     steps:
+      - name: Checkout código
+        uses: actions/checkout@v2
+
       - name: Instalação Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v0
         with:
