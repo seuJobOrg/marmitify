@@ -100,6 +100,10 @@ jobs:
         with:
           cluster_name: marmitify-deploy-cluster
           location: us-central1
+
+      - name: Instalar cert-manager
+        run: kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+      
       - name: Aplicar manifestos Kubernetes
         run: kubectl apply -f k8s/
 
